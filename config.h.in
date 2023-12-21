@@ -100,9 +100,10 @@ static float mfact = 0.55; /* factor of master area size [0.05..0.95] */
 
 static Layout layouts[] = {
     /* symbol     arrange function */
-    {L"T", tile}, /* first entry is default */
+    {L"M", monocle}, /* first entry is default */
+    {L"T", tile}, 
     {L"F", NULL}, /* no layout function means floating behavior */
-    {L"M", monocle}, {L"TTT", bstack}, {L"G", gaplessgrid},
+    {L"TTT", bstack}, {L"G", gaplessgrid},
     {L"+++", grid},  {L"(@)", spiral}, {L"[\\]", dwindle},
 };
 
@@ -149,10 +150,10 @@ static Key keys[] = {
     {MODKEY | MOD_CONTROL, VK_RETURN, zoom, {0}},
     {MODKEY, VK_TAB, view, {0}},
     {MODKEY, 'Q', killclient, {0}},
-    {MODKEY, 'T', setlayout, {.v = &layouts[0]}},
-    {MODKEY, 'F', setlayout, {.v = &layouts[1]}},
+    {MODKEY, 'T', setlayout, {.v = &layouts[1]}},
+    {MODKEY, 'F', setlayout, {.v = &layouts[2]}},
     {MODKEY | MOD_SHIFT, 'F', forcearrange, {0}},
-    {MODKEY, 'M', setlayout, {.v = &layouts[2]}},
+    {MODKEY, 'M', setlayout, {.v = &layouts[0]}},
     {MODKEY | MOD_CONTROL, 'T', setlayout, {.v = &layouts[3]}},
     {MODKEY, 'G', setlayout, {.v = &layouts[4]}},
     {MODKEY | MOD_SHIFT, 'G', setlayout, {.v = &layouts[5]}},
