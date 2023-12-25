@@ -88,6 +88,11 @@ static Rule rules[] = {
     { NULL,						  NULL,			L"PowerToys.MeasureToolUI.exe",0,    true,           false },
     { NULL,						  NULL,			L"pc-client.exe",0,          		true,           false },
     { NULL,						  NULL,			L"csc_ui.exe",0,          			true,           false },
+    { L"CropAndLock.ThumbnailCropAndLockWindow",	NULL,			NULL,				    0,          	true,           false },
+    { NULL,						  NULL,			L"Tonelib-GFX.exe",	0,          	true,           true },
+    { L"ImagePreviewWnd",                   NULL,                  NULL,               0,          true,           false },
+    { NULL,                                  NULL,                  L"msiexec.exe",     0,          true,           true },
+    { NULL,                                  L"Calculator",          NULL,               0,          true,           true },  
    };
 
 /* layout(s) */
@@ -104,7 +109,7 @@ static Layout layouts[] = {
     {L"T", tile}, 
     {L"F", NULL}, /* no layout function means floating behavior */
     {L"TTT", bstack}, {L"G", gaplessgrid},
-    {L"+++", grid},  {L"(@)", spiral}, {L"[\\]", dwindle},
+    {L"g", grid},  {L"(@)", spiral}, {L"[\\]", dwindle},
 };
 
 // static Layout layouts[] = {
@@ -124,7 +129,7 @@ static Layout layouts[] = {
       {MODKEY | MOD_CONTROL | MOD_SHIFT, KEY, toggletag, {.ui = 1 << TAG}},
 
 static wchar_t clockfmt[] = L"| %a %d/%m | %I:%M %p";
-static int clock_interval = 15000;
+static int clock_interval = 12000;
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
