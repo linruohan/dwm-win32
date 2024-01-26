@@ -116,6 +116,7 @@ struct Client {
     bool ignoreborder;
     bool border;
     bool wasvisible;
+    bool ishanging;
     bool isfixed, isurgent; // XXX: useless?
     bool iscloaked; // WinStore apps
     Client *next;
@@ -672,13 +673,19 @@ getclienttitle(HWND hwnd) {
     return buf;
 }
 
-LPWSTR
-getclientprocessname(HWND hwnd) {
+HANDLE
+getclientprocess(HWND hwnd) {
     DWORD processid = 0;
-    DWORD buf_size = MAX_PATH;
-    static wchar_t buf[MAX_PATH];
     GetWindowThreadProcessId(hwnd, &processid);
     HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, processid);
+    return hProc;
+}
+
+LPWSTR
+getclientprocessname(HWND hwnd) {
+    DWORD buf_size = MAX_PATH;
+    static wchar_t buf[MAX_PATH];
+    HANDLE hProc = getclientprocess(hwnd);
     if (hProc) {
         if (QueryFullProcessImageNameW(hProc, 0, buf, &buf_size)) {
             CloseHandle(hProc);
@@ -690,6 +697,18 @@ getclientprocessname(HWND hwnd) {
     return NULL;
 }
 
+BOOL
+isclientdebugged(HWND hwnd) {
+    BOOL debuggerPresent = false;
+    HANDLE hProc = getclientprocess(hwnd);
+    if (!CheckRemoteDebuggerPresent(hProc, &debuggerPresent)) {
+        CloseHandle(hProc);
+        return false;
+    }
+
+    CloseHandle(hProc);
+    return debuggerPresent;
+}
 
 HWND
 getroot(HWND hwnd) {
@@ -724,6 +743,14 @@ bool
 ismanageable(HWND hwnd) {
     if (hwnd == 0)
         return false;
+
+    if (IsHungAppWindow(hwnd)) {
+        return false;
+    }
+
+    if (isclientdebugged(hwnd)) {
+        return false;
+    }
 
     if (getclient(hwnd))
         return true;
@@ -1386,6 +1413,19 @@ void
 showhide(Client *c) {
     if (!c)
         return;
+
+    if (isclientdebugged(c->hwnd)) {
+        c->ishanging = true;
+        unmanage(c);
+        return;
+    }
+
+    if (IsHungAppWindow(c->hwnd)) {
+        c->ishanging = true;
+        unmanage(c);
+        return;
+    }
+
     /* XXX: is the order of showing / hidding important? */
     if (!ISVISIBLE(c)) {
         if (IsWindowVisible(c->hwnd)) {
@@ -1572,9 +1612,11 @@ writelog(const Arg *arg) {
 void
 unmanage(Client *c) {
     debug(L" unmanage %s\n", getclienttitle(c->hwnd));
-    if (c->wasvisible)
+
+    // Don't want to touch Window related functions on hanging windows
+    if (c->wasvisible && !c->ishanging)
         setvisibility(c->hwnd, true);
-    if (!c->isfloating)
+    if (!c->isfloating && !c->ishanging)
         setborder(c, true);
     detach(c);
     detachstack(c);
