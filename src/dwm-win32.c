@@ -725,10 +725,6 @@ ismanageable(HWND hwnd) {
     if (hwnd == 0)
         return false;
 
-    if (IsHungAppWindow(hwnd)) {
-        return false;
-    }
-    
     if (getclient(hwnd))
         return true;
 
@@ -864,12 +860,6 @@ manage(HWND hwnd) {
     c->iscloaked = iscloaked(hwnd);
     c->isminimized = IsIconic(hwnd);
 
-    // Check if the window is hung
-    if (IsHungAppWindow(hwnd)) {
-        unmanage(c);
-        return NULL;
-    }
-
     static WINDOWPLACEMENT wp = {
         .length = sizeof(WINDOWPLACEMENT),
         .showCmd = SW_RESTORE,
@@ -982,18 +972,7 @@ LRESULT CALLBACK barhandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             buttonpress(msg, &MAKEPOINTS(lParam));
             break;
         case WM_TIMER:
-            // check for hung windows every time the timer runs
-            // Iterate over all managed windows
-            for (Client* c = clients; c; c = c->next) {
-                // Check if the window is hung
-                if (IsHungAppWindow(c->hwnd)) {
-                    // Unmanage the window
-                    unmanage(c);
-                }
-            }
-
             drawbar();
-
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam); 
     }
