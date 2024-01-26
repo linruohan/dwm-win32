@@ -1,10 +1,11 @@
-Changes in Comparison to main
-=============================
-- PerTag patch
+Changes in this Build Compared to Base
+======================================
+- Per-Tag patch (Each tag layout is independently controlable)
 - Battery Indicator
-- Gapless Tiling with offset
+- Gapless Tiling with offset (removes gaps, tested on 15.6' display)
 - Added MOD_WIN support as Mod key instead of ALT
-- Cyclic check for Hung windows with clock Timer to call unmanage()
+- Attempts to unmanage windows if exception occurs, to avoid loosing open programms.
+- Stability Improvements by unmanaging Hung and debugged windows.
 
 dwm-win32 is a port of the well known X11 window manager dwm to Microsoft
 Windows.
