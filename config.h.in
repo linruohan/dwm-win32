@@ -93,6 +93,7 @@ static Rule rules[] = {
     { L"ImagePreviewWnd",                   NULL,                  NULL,               0,          true,           false },
     { NULL,                                  NULL,                  L"msiexec.exe",     0,          true,           true },
     { NULL,                                  L"Calculator",          NULL,               0,          true,           true },  
+     { NULL,                                  NULL,          L"WindowsTerminal.exe",               0,          true,           false },  
    };
 
 /* layout(s) */
