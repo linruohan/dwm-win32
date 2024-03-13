@@ -7,6 +7,8 @@ Changes in this Build Compared to Base
 - Attempts to unmanage windows if exception occurs, to avoid loosing open programms.
 - Stability Improvements by unmanaging Hung and debugged windows.
 
+*Important:* THIS FORK ONLY WORKS WITH MOD_WIN therefore disabling the default windows bindings through the registry is a must.
+
 dwm-win32 is a port of the well known X11 window manager dwm to Microsoft
 Windows.
 
