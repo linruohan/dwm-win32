@@ -6,7 +6,7 @@ config.h
 tags
 *.swp
 *.orig
-
+.vscode/
 .clangd/
 compile_commands.json
 
