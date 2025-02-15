@@ -30,7 +30,7 @@ static bool showclock = true;     /* false means no clock */
 static bool showutcclock = false; /* false means no utc clock */
 static bool showexploreronstart =
     true; /* false means do not show explorer/task bar on start */
-static bool showBattery = true;
+static bool showBattery = false;
 
 /* tagging */
 static const wchar_t tags[][MAXTAGLEN] = {L"1", L"2", L"3", L"4", L"5",
@@ -137,8 +137,8 @@ static Layout layouts[] = {
       {MODKEY | MOD_SHIFT, KEY, tag, {.ui = 1 << TAG}},                        \
       {MODKEY | MOD_CONTROL | MOD_SHIFT, KEY, toggletag, {.ui = 1 << TAG}},
 
-static wchar_t clockfmt[] = L"| %y.%m.%d %H:%M %A";
-static int clock_interval = 12000;
+static wchar_t clockfmt[] = L"%y-%m-%d %H:%M:%S %A";
+static int clock_interval = 1000;
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
@@ -148,6 +148,7 @@ static int clock_interval = 12000;
 
 /* commands */
 static const wchar_t *explorer[] = {L"explorer.exe", NULL};
+static const wchar_t *browser[] = {L"firefox.exe", NULL};
 static const wchar_t *terminal[] = {L"alacritty.exe", NULL};
 
 static Key keys[] = {
@@ -173,12 +174,13 @@ static Key keys[] = {
     {MODKEY | MOD_SHIFT, 'G', setlayout, {.v = &layouts[5]}},
     {MODKEY, 'D', setlayout, {.v = &layouts[6]}},
     {MODKEY | MOD_SHIFT, 'D', setlayout, {.v = &layouts[7]}},
-    // {MODKEY | MOD_CONTROL, VK_SPACE, setlayout, {0}},
+    {MODKEY | MOD_CONTROL, VK_SPACE, setlayout, {0}},
     {MODKEY | MOD_SHIFT, VK_SPACE, togglefloating, {0}},
     {MODKEY, 'N', toggleborder, {0}},
-    {MODKEY, 'E', spawn, {.v = explorer}},
+    {MODKEY, 'E', toggleexplorer, {0}},
+    /*{MODKEY, 'E', spawn, {.v = explorer}},*/
+    {MODKEY, 'C', spawn, {.v = browser}},
     {MODKEY, VK_RETURN, spawn, {.v = terminal}},
-    {MODKEY | MOD_SHIFT, 'E', toggleexplorer, {0}},
     // {MODKEY | MOD_CONTROL, 'L', writelog, {0}},
     {MODKEY, '0', view, {.ui = ~0}},
     {MODKEY | MOD_SHIFT, '0', tag, {.ui = ~0}},
