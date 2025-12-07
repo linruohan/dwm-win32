@@ -8,7 +8,7 @@
 #include <windows.h>
 
 typedef struct {
-    HINSTANCE hInstance;
+  HINSTANCE hInstance;
 } DwmState;
 
 int luaopen_dwm(lua_State *L);

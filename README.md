@@ -82,7 +82,7 @@ Usage
 
   `MOD + n` Toggles border of currently focused window.
 
-  `Mod + + Shift + i` Display classname of currently focused window, useful for writing
+  `Mod + Shift + i` Display classname of currently focused window, useful for writing
      tagging rules.
 
   `MOD + Tab` Toggles to the previously selected tags.
@@ -105,7 +105,7 @@ Usage
 
   `MOD + Control + q`  Quit dwm.
 
-  `MOD + Control + l`  Log all window state. (Disabled)
+  `MOD + Control + l`  Log all window state.
 
 
  ## Mouse
