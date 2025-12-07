@@ -1,7 +1,6 @@
 *.exe
 *.pdb
 
-config.h
 
 tags
 *.swp
